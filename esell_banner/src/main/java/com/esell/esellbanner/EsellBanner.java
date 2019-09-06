@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.esell.esellbanner.utils.ReadDataUtil;
 
+import java.io.File;
+
 /**
  * by soyao
  * 易售banner view
@@ -22,7 +24,7 @@ public class EsellBanner extends FrameLayout {
     private UniqueTimer mUniqueTimer;
     private Handler mHandler = new Handler();
     private ReadDataUtil mReadDataUtil;
-    private int mIndex,  mNowDuration;
+    private int mIndex, mNowDuration;
 
     public EsellBanner(Context context) {
         super(context);
@@ -78,7 +80,15 @@ public class EsellBanner extends FrameLayout {
             @Override
             public void run() {
                 if (mReadDataUtil.getMediaList().isEmpty()) return;
-                play(mReadDataUtil.getMediaList().get(mIndex));
+                String path = mReadDataUtil.getMediaList().get(mIndex).getMediaPath();
+                if (!TextUtils.isEmpty(path)) {
+                    File file = new File(path);
+                    if (file.exists()) {//文件存在
+                        play(mReadDataUtil.getMediaList().get(mIndex));
+                    } else {//文件不存在
+                        mNowDuration = mReadDataUtil.getMediaList().get(mIndex).getDuration();
+                    }
+                }
             }
         });
     }
