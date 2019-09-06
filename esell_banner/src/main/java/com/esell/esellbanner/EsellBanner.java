@@ -22,16 +22,7 @@ public class EsellBanner extends FrameLayout {
     private UniqueTimer mUniqueTimer;
     private Handler mHandler = new Handler();
     private ReadDataUtil mReadDataUtil;
-    private int mIndex, mDuration = 15, mNowDuration;
-
-    /**
-     * 设置轮播时间
-     *
-     * @param duration
-     */
-    public void setDuration(int duration) {
-        this.mDuration = duration;
-    }
+    private int mIndex,  mNowDuration;
 
     public EsellBanner(Context context) {
         super(context);
@@ -66,7 +57,7 @@ public class EsellBanner extends FrameLayout {
                 }
 
                 mNowDuration++;
-                if (mNowDuration <= mDuration) return;
+                if (mNowDuration < mReadDataUtil.getMediaList().get(mIndex).getDuration()) return;
 
                 mIndex++;
                 if (mIndex >= mReadDataUtil.getMediaList().size()) {

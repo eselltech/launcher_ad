@@ -6,7 +6,11 @@ import android.text.TextUtils;
 
 import com.esell.esellbanner.BannerConfig;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class ToolUtils {
 
@@ -17,20 +21,11 @@ public class ToolUtils {
      * @return
      */
     public static File getMediaPath(Context context) {
-        File storagePath;
-        String externalStorageState = Environment.getExternalStorageState();
-        if (TextUtils.equals(Environment.MEDIA_MOUNTED, externalStorageState)) {
-            storagePath = Environment.getExternalStorageDirectory();
-        } else {
-            storagePath = context.getFilesDir();
-        }
+        return getPath(context, BannerConfig.CACHE_DIR_YIXINFA);
+    }
 
-        File yiXinFaFile = new File(storagePath, BannerConfig.CACHE_DIR_YIXINFA);
-        if (yiXinFaFile.exists()) {
-            return yiXinFaFile;
-        }
-
-        return null;
+    public static File getJsonPath(Context context) {
+        return getPath(context, BannerConfig.JSON_PATH);
     }
 
     /**
@@ -49,5 +44,71 @@ public class ToolUtils {
             }
         }
         return null;
+    }
+
+
+    private static File getPath(Context context, String child) {
+        File storagePath;
+        String externalStorageState = Environment.getExternalStorageState();
+        if (TextUtils.equals(Environment.MEDIA_MOUNTED, externalStorageState)) {
+            storagePath = Environment.getExternalStorageDirectory();
+        } else {
+            storagePath = context.getFilesDir();
+        }
+
+        File yiXinFaFile = new File(storagePath, child);
+        if (yiXinFaFile.exists()) {
+            return yiXinFaFile;
+        }
+
+        return null;
+    }
+
+
+    /**
+     * 读取文件
+     *
+     * @param file
+     * @return
+     */
+    public static String readFile(File file) {
+        String content = "";
+        FileInputStream fis = null;
+        BufferedReader br = null;
+        if (file.exists()) {
+            try {
+                //获取指定文件对应的输入流
+                fis = new FileInputStream(file);
+                //将指定输入流包装成BufferReader
+                br = new BufferedReader(new InputStreamReader(fis));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                //循环读取文件内容
+                while ((line = br.readLine()) != null) {
+                    sb.append(line);
+                }
+                br.close();
+                fis.close();
+                content = sb.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (null != br) {
+                    try {
+                        br.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (null != fis) {
+                    try {
+                        fis.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return content;
     }
 }

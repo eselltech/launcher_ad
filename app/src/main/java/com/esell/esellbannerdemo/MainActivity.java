@@ -16,6 +16,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mEsellBanner = findViewById(R.id.eb_content);
-        mEsellBanner.setDuration(5);
+//        mEsellBanner.setDuration(5);
     }
 }
