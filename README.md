@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:background="@color/colorAccent" />
 ```
-3. 轮播时间自己控制，没有就是15s
+3. 轮播时间后台控制
 4. 默认背景自己设置
 
 #### 注意事项
