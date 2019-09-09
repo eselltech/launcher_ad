@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.esell.esellbanner.EsellBanner;
 
+/**
+ * 主页
+ */
 public class MainActivity extends AppCompatActivity {
 
     private EsellBanner mEsellBanner;
